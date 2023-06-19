@@ -78,7 +78,7 @@ app.post("/:id/:logtype?", async (c) => {
   const message = await c.req.text()
 
   if (!Object.values(LogLevel).includes(logtype as LogLevel)) {
-    return c.text(`invalid log type (choose from ${Object.values(LogLevel)}))`)
+    logtype = LogLevel.info
   }
 
   await saveLog(logtype as LogLevel, id, message)
