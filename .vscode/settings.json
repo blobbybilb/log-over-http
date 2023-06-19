@@ -1,4 +1,5 @@
 {
-    "deno.enable": true,
-    "deno.unstable": true
+  "deno.enable": true,
+  "deno.unstable": true,
+  "deno.config": "/Users/arjun/Developer/log-over-http/deno.jsonc"
 }
