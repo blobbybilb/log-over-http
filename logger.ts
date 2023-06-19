@@ -1,5 +1,15 @@
-function logger(
+const loggerID = "example"
+
+export async function logger(
   message: string,
-  type: "ok" | "info" | "warn" | "error" = "info",
+  logtype: "ok" | "info" | "warn" | "error" = "info",
 ) {
+  const serverURL = "https://hlog.deno.dev"
+
+  await fetch(`${serverURL}/${loggerID}/${logtype}`, {
+    method: "POST",
+    body: message,
+  })
 }
+
+logger("Let the logging begin!")
