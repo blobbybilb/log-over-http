@@ -100,14 +100,6 @@ app.get("/:id", async (c) => {
 })
 
 serve(app.fetch)
-
-await fetch("http://localhost:8000/123", {
-  method: "POST",
-  body: "hello world 0",
-})
-
-console.log(await getLogs("123"))
-
 // const iter = kv.list({ prefix: ["logs"] })
 // const users = []
 // for await (const res of iter) users.push(res)
