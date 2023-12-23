@@ -12,4 +12,4 @@ export async function logger(
   })
 }
 
-logger("test")
+logger("Let the logging begin! - TS")

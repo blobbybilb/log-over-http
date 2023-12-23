@@ -25,6 +25,6 @@ void logger(const char* message, const char* logtype) {
 }
 
 int main() {
-    logger("Let the logging begin!", "info");
+    logger("Let the logging begin! - C", "info");
     return 0;
 }

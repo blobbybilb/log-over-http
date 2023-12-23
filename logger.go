@@ -22,7 +22,7 @@ func logger(message string, logtype string) error {
 }
 
 func main() {
-	err := logger("Let the logging begin!", "info")
+	err := logger("Let the logging begin! - Go", "info")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}

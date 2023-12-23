@@ -10,4 +10,4 @@ logger() {
     curl -X POST "${serverURL}/${loggerID}/${logtype}" -d "$message"
 }
 
-logger "Let the logging begin!"
+logger "Let the logging begin! - sh"

@@ -9,4 +9,4 @@ def logger(message, log_type = "info")
   Net::HTTP.post(uri, message)
 end
 
-logger("Let the logging begin!")
+logger("Let the logging begin! - Ruby")

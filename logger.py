@@ -10,4 +10,4 @@ def logger(
     serverURL: str = "https://hlog.deno.dev"
     requests.post(f"{serverURL}/{loggerID}/{logtype}", data=message)
 
-logger("Let the logging begin!")
+logger("Let the logging begin! - Python")

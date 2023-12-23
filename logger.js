@@ -9,4 +9,4 @@ export async function logger(message, logtype = "info") {
   });
 }
 
-logger("Let the logging begin!");
+logger("Let the logging begin! - JS");

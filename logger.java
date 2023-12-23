@@ -1,3 +1,5 @@
+// TODO do without library (and kotlin too)
+
 import okhttp3.*;
 
 enum LogType {
@@ -11,8 +13,7 @@ public class Main {
     private static final String loggerID = "example";
 
     public static void main(String[] args) {
-        logger("Let the logging begin!");
-        System.out.println("Logging successful.");
+        logger("Let the logging begin! - Java");
     }
 
     public static void logger(String message, LogType logType) {
