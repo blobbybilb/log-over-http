@@ -20,6 +20,7 @@ export const logsPage = /*html*/ `
       integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
       crossorigin="anonymous"
     ></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
 
   <body class="m-4">
@@ -27,10 +28,17 @@ export const logsPage = /*html*/ `
     <h3 class="text-center my-4">Logs for <%= it.id %></h3>
     <% it.logs.forEach(function(log) { %>
     <div class="alert alert-<%= log.loglevel %>" role="alert">
-      <b><%= log.date %></b> <%= log.message %>
+      <b id="date"><%= log.date %></b> <%= log.message %>
     </div>
     <% }) %>
   </body>
+
+  <script>
+      const date = document.getElementById("date")
+      const dateText = date.innerText
+      const dateObject = new Date(dateText)
+      date.innerText = dateObject.toLocaleString()
+  </script>
 </html>
 
 `
