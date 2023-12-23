@@ -1,10 +1,10 @@
 /// <reference lib="deno.unstable" />
 
-import { Hono } from "https://deno.land/x/hono@v3.2.3/mod.ts"
-import { serve } from "https://deno.land/std@0.190.0/http/server.ts"
-import * as Eta from "https://deno.land/x/eta@v2.2.0/mod.ts"
+import { Hono } from "https://deno.land/x/hono@v3.2.3/mod.ts";
+import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import * as Eta from "https://deno.land/x/eta@v2.2.0/mod.ts";
 
-export const logsPage = /*html*/`
+export const logsPage = /*html*/ `
 <!DOCTYPE html>
 <html>
   <head>
@@ -26,6 +26,9 @@ export const logsPage = /*html*/`
   <body class="m-4">
     <h1 class="text-center">Log over HTTP</h1>
     <h3 class="text-center my-4">Logs for <kbd><%= it.id %></kbd></h3>
+    <div class="text-center my-4">
+      <a href="/download/<%= it.id %>" class="btn btn-primary">Download logs</a>
+    </div>
     <% it.logs.forEach(function(log) { %>
     <div class="alert alert-<%= log.loglevel %>" role="alert">
       <b class="date"><%= log.date %></b> <%= log.message %>
@@ -42,28 +45,28 @@ export const logsPage = /*html*/`
       }
   </script>
 </html>
-`
+`;
 
-const kv = await Deno.openKv()
+const kv = await Deno.openKv();
 
-type Log = { date: string; loglevel: string; message: string }
+type Log = { date: string; loglevel: string; message: string };
 
 async function saveLog(loglevel: LogLevel, id: string, message: string) {
-  const date = new Date().toString()
-  const log: Log = { date, loglevel, message }
-  await kv.set(["logs", id, date], log)
+  const date = new Date().toString();
+  const log: Log = { date, loglevel, message };
+  await kv.set(["logs", id, date], log);
 }
 
 async function getLogs(id: string): Promise<Log[]> {
-  const logs = []
+  const logs = [];
   for await (const log of kv.list({ prefix: ["logs", id] })) {
-    logs.push(log.value as Log)
+    logs.push(log.value as Log);
   }
 
-  return logs
+  return logs;
 }
 
-const app = new Hono()
+const app = new Hono();
 
 enum LogLevel {
   ok = "ok",
@@ -77,38 +80,49 @@ const classForLogLevel = {
   [LogLevel.info]: "light",
   [LogLevel.warn]: "warning",
   [LogLevel.error]: "danger",
-}
+};
 
 app.post("/:id/:logtype?", async (c) => {
-  let { id, logtype } = c.req.param()
+  let { id, logtype } = c.req.param();
 
-  logtype = logtype ?? LogLevel.info
+  logtype = logtype ?? LogLevel.info;
 
-  const message = await c.req.text()
+  const message = await c.req.text();
 
   if (!Object.values(LogLevel).includes(logtype as LogLevel)) {
-    logtype = LogLevel.info
+    logtype = LogLevel.info;
   }
 
-  await saveLog(logtype as LogLevel, id, message)
+  await saveLog(logtype as LogLevel, id, message);
 
-  return c.text("done")
-})
+  return c.text("done");
+});
 
 app.get("/:id", async (c) => {
-  const { id } = c.req.param()
+  const { id } = c.req.param();
   const logs = (await getLogs(id))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .map((log) => ({
       ...log,
       loglevel: classForLogLevel[log.loglevel as LogLevel],
       date: new Date(log.date).toString().split(" ").slice(0, 6).join(" "),
-    }))
+    }));
 
-  return c.html(Eta.render(logsPage, { id, logs }))
-})
+  return c.html(Eta.render(logsPage, { id, logs }));
+});
 
-serve(app.fetch)
+app.get("/download/:id", async (c) => {
+  const { id } = c.req.param();
+  const logs = (await getLogs(id))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .map((log) => `[ ${log.date} ${log.loglevel.toUpperCase()} ] ${log.message}`)
+    .join("\n");
+
+  c.res.headers.set("Content-Disposition", `attachment; filename=${id}-logs-over-http.txt`);
+  return c.text(logs);
+});
+
+serve(app.fetch);
 // const iter = kv.list({ prefix: ["logs"] })
 // const users = []
 // for await (const res of iter) users.push(res)
