@@ -102,7 +102,7 @@ app.get("/download/:logid", async (c) => {
   const { logid } = c.req.param();
   const logs = (await getLogs(logid))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .map((log) => `[ ${log.date} ${log.loglevel.toUpperCase()} ] ${log.message}`)
+    .map((log) => `[ ${new Date(log.date).toString().split(" ").slice(0, 6).join(" ")} ${log.loglevel.toUpperCase()} ] ${log.message}`)
     .join("\n");
 
   c.res.headers.set("Content-Disposition", `attachment; filename=${logid}-logs-over-http.txt`);
