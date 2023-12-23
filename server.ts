@@ -98,14 +98,14 @@ app.post("/:id/:logtype?", async (c) => {
   return c.text("done");
 });
 
-app.get("/download/:id", async (c) => {
-  const { id } = c.req.param();
-  const logs = (await getLogs(id))
+app.get("/download/:logid", async (c) => {
+  const { logid } = c.req.param();
+  const logs = (await getLogs(logid))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .map((log) => `[ ${log.date} ${log.loglevel.toUpperCase()} ] ${log.message}`)
     .join("\n");
 
-  c.res.headers.set("Content-Disposition", `attachment; filename=${id}-logs-over-http.txt`);
+  c.res.headers.set("Content-Disposition", `attachment; filename=${logid}-logs-over-http.txt`);
   return c.text(logs);
 });
 
