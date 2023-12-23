@@ -4,7 +4,7 @@ import { Hono } from "https://deno.land/x/hono@v3.2.3/mod.ts"
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts"
 import * as Eta from "https://deno.land/x/eta@v2.2.0/mod.ts"
 
-export const logsPage = /*html*/ `
+export const logsPage = /*html*/`
 <!DOCTYPE html>
 <html>
   <head>
@@ -25,7 +25,7 @@ export const logsPage = /*html*/ `
 
   <body class="m-4">
     <h1 class="text-center">Log over HTTP</h1>
-    <h3 class="text-center my-4">Logs for <%= it.id %></h3>
+    <h3 class="text-center my-4">Logs for <kbd><%= it.id %></kbd></h3>
     <% it.logs.forEach(function(log) { %>
     <div class="alert alert-<%= log.loglevel %>" role="alert">
       <b id="date"><%= log.date %></b> <%= log.message %>
@@ -40,7 +40,6 @@ export const logsPage = /*html*/ `
       date.innerText = dateObject.toLocaleString()
   </script>
 </html>
-
 `
 
 const kv = await Deno.openKv()
