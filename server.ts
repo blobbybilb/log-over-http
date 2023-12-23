@@ -28,16 +28,18 @@ export const logsPage = /*html*/`
     <h3 class="text-center my-4">Logs for <kbd><%= it.id %></kbd></h3>
     <% it.logs.forEach(function(log) { %>
     <div class="alert alert-<%= log.loglevel %>" role="alert">
-      <b id="date"><%= log.date %></b> <%= log.message %>
+      <b class="date"><%= log.date %></b> <%= log.message %>
     </div>
     <% }) %>
   </body>
 
   <script>
-      const date = document.getElementById("date")
-      const dateText = date.innerText
-      const dateObject = new Date(dateText)
-      date.innerText = dateObject.toLocaleString()
+      const dates = document.querySelectorAll(".date")
+      for (const date of dates) {
+        const dateText = date.innerText
+        const dateObject = new Date(dateText)
+        date.innerText = dateObject.toLocaleString()
+      }
   </script>
 </html>
 `
