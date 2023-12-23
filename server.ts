@@ -98,6 +98,17 @@ app.post("/:id/:logtype?", async (c) => {
   return c.text("done");
 });
 
+app.get("/download/:id", async (c) => {
+  const { id } = c.req.param();
+  const logs = (await getLogs(id))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .map((log) => `[ ${log.date} ${log.loglevel.toUpperCase()} ] ${log.message}`)
+    .join("\n");
+
+  c.res.headers.set("Content-Disposition", `attachment; filename=${id}-logs-over-http.txt`);
+  return c.text(logs);
+});
+
 app.get("/:id", async (c) => {
   const { id } = c.req.param();
   const logs = (await getLogs(id))
@@ -109,17 +120,6 @@ app.get("/:id", async (c) => {
     }));
 
   return c.html(Eta.render(logsPage, { id, logs }));
-});
-
-app.get("/download/:id", async (c) => {
-  const { id } = c.req.param();
-  const logs = (await getLogs(id))
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .map((log) => `[ ${log.date} ${log.loglevel.toUpperCase()} ] ${log.message}`)
-    .join("\n");
-
-  c.res.headers.set("Content-Disposition", `attachment; filename=${id}-logs-over-http.txt`);
-  return c.text(logs);
 });
 
 serve(app.fetch);
