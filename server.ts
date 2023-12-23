@@ -36,6 +36,8 @@ export const logsPage = /*html*/ `
     <% }) %>
   </body>
 
+  <small class="text-center d-block my-4">Made by <a href="http://github.com/blobbybilb">blobbybilb</a></small>
+
   <script>
       const dates = document.querySelectorAll(".date")
       for (const date of dates) {
