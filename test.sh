@@ -36,5 +36,7 @@ rustc logger.rs
 chmod +x logger.sh
 sh logger.sh
 
+deno logger.ts
+
 zig build-exe logger.zig
 ./logger

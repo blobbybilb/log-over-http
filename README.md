@@ -13,3 +13,7 @@ The `server.ts` can be self hosted with deno.
 ---
 
 LGPLv3 License
+
+---
+
+Don't worry, "Let the logging begin!" was ChatGPT's idea, I don't write example text like that.
