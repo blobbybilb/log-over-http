@@ -2,7 +2,7 @@ require "http/client"
 
 LOGGER_ID = "example"
 
-def logger(message : String, log_type = "info" : String)
+def logger(message : String, log_type : String = "info")
   server_url = "https://hlog.deno.dev"
   url = "#{server_url}/#{LOGGER_ID}/#{log_type}"
 
@@ -12,4 +12,4 @@ def logger(message : String, log_type = "info" : String)
   end
 end
 
-logger("Let the logging begin!")
+logger("Let the logging begin! - Crystal")

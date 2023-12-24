@@ -12,6 +12,5 @@ void logger(String message, {LogType logType = LogType.info}) {
 }
 
 void main() {
-  logger('Let the logging begin!');
-  print('Logging successful.');
+  logger('Let the logging begin! - Dart');
 }

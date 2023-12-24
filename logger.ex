@@ -12,4 +12,4 @@ defmodule Logger do
   end
 end
 
-Logger.logger("Let the logging begin!")
+Logger.logger("Let the logging begin! - Elixir")
